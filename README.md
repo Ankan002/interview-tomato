@@ -2,18 +2,18 @@
 
 - Download: [Android App](https://drive.google.com/file/d/1PnZwDFvTye4C4tgiQj83QMIVLiJB5eNo/view?usp=sharing)
 
-# Home
+- Home
 
-<img src='https://github.com/Ankan002/interview-tomato/blob/main/screenshots/home.jpg' width='30' />
+<img src='https://github.com/Ankan002/interview-tomato/blob/main/screenshots/home.jpg' width='100' />
 
-# Menu
+- Menu
 
-<img src='https://github.com/Ankan002/interview-tomato/blob/main/screenshots/menu.jpg' width='30' />
+<img src='https://github.com/Ankan002/interview-tomato/blob/main/screenshots/menu.jpg' width='100' />
 
-# Cart
+- Cart
 
-<img src='https://github.com/Ankan002/interview-tomato/blob/main/screenshots/cart.jpg' width='30' />
+<img src='https://github.com/Ankan002/interview-tomato/blob/main/screenshots/cart.jpg' width='100' />
 
-# Empty Cart
+- Empty Cart
 
-<img src='https://github.com/Ankan002/interview-tomato/blob/main/screenshots/empty-cart.jpg' width='30' />
+<img src='https://github.com/Ankan002/interview-tomato/blob/main/screenshots/empty-cart.jpg' width='100' />
