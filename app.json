@@ -25,7 +25,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#5800FF"
-      }
+      },
+      "package": "com.ankan2002.tomato"
     },
     "web": {
       "favicon": "./assets/images/favicon.png"
