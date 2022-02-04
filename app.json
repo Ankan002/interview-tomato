@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "tomato",
+    "name": "Tomato",
     "slug": "tomato",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -10,7 +10,7 @@
     "splash": {
       "image": "./assets/images/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#5800FF"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
@@ -24,7 +24,7 @@
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
+        "backgroundColor": "#5800FF"
       }
     },
     "web": {

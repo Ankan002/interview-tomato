@@ -3,27 +3,64 @@
  * https://reactnavigation.org/docs/getting-started
  *
  */
-import { FontAwesome } from '@expo/vector-icons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { NavigationContainer, DefaultTheme, DarkTheme } from '@react-navigation/native';
+import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import * as React from 'react';
-import { ColorSchemeName, Pressable } from 'react-native';
+import React,{useEffect} from 'react';
+import { Entypo } from '@expo/vector-icons';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import Colors from '../constants/Colors';
-import useColorScheme from '../hooks/useColorScheme';
-import ModalScreen from '../screens/ModalScreen';
-import NotFoundScreen from '../screens/NotFoundScreen';
-import TabOneScreen from '../screens/TabOneScreen';
-import TabTwoScreen from '../screens/TabTwoScreen';
-import { RootStackParamList, RootTabParamList, RootTabScreenProps } from '../types';
+import { RootStackParamList, RootTabParamList } from '../types';
 import LinkingConfiguration from './LinkingConfiguration';
+import Resturants from '../screens/Resturants';
+import { NavigationTheme } from '../theme/NavigationTheme';
+import Cart from '../screens/Cart';
+import { ItemsInCart } from '../atom/itemsInCartAtom';
+import CartIcon from '../components/CartIcon';
+import Menu from '../screens/Menu';
+import { ItemsCountState } from '../atom/itemsCountAtom';
+import { getItemsCountInCart } from '../helpers/countItems';
+import InnerCart from '../screens/InnerCart';
 
-export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
+export default function Navigation() {
+  const [cartItems, setCartItems] = useRecoilState(ItemsInCart)
+  const [itemsCount, setItemsCount] = useRecoilState(ItemsCountState)
+
+  const getCartItems = async() => {
+    const ItemsInStore = await AsyncStorage.getItem('cart-items')
+    console.log(ItemsInStore)
+
+    if(!ItemsInStore){
+      await AsyncStorage.setItem('cart-item', JSON.stringify([]))
+      setCartItems([])
+      setItemsCount(0)
+    }
+    else{
+      const AllItems = JSON.parse(ItemsInStore)
+      setCartItems(AllItems)
+      const count = getItemsCountInCart(AllItems)
+      setItemsCount(count)
+    }
+  }
+
+  const storageSetter = async() => {
+    await AsyncStorage.setItem('cart-item', JSON.stringify(cartItems))
+  }
+  storageSetter()
+
+  useEffect(() => {
+    getCartItems()
+  }, [])
+
+  useEffect(() => {
+    
+  }, [cartItems])
+
   return (
     <NavigationContainer
       linking={LinkingConfiguration}
-      theme={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+      theme={NavigationTheme}>
       <RootNavigator />
     </NavigationContainer>
   );
@@ -36,13 +73,12 @@ export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeNa
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 function RootNavigator() {
+
   return (
     <Stack.Navigator>
       <Stack.Screen name="Root" component={BottomTabNavigator} options={{ headerShown: false }} />
-      <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
-      <Stack.Group screenOptions={{ presentation: 'modal' }}>
-        <Stack.Screen name="Modal" component={ModalScreen} />
-      </Stack.Group>
+      <Stack.Screen name='Menu' component={Menu} options={{headerShown: false}} />
+      <Stack.Screen name='Cart' component={InnerCart} options={{headerShown: false}} />
     </Stack.Navigator>
   );
 }
@@ -53,55 +89,38 @@ function RootNavigator() {
  */
 const BottomTab = createBottomTabNavigator<RootTabParamList>();
 
+
 function BottomTabNavigator() {
-  const colorScheme = useColorScheme();
+  const itemsCount = useRecoilValue(ItemsCountState)
 
   return (
     <BottomTab.Navigator
-      initialRouteName="TabOne"
+      initialRouteName="Restuarants"
       screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme].tint,
+        tabBarActiveTintColor: '#E900FF',
+        tabBarInactiveTintColor: '#FFC600',
+        tabBarShowLabel: false
       }}>
       <BottomTab.Screen
-        name="TabOne"
-        component={TabOneScreen}
-        options={({ navigation }: RootTabScreenProps<'TabOne'>) => ({
-          title: 'Tab One',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
-          headerRight: () => (
-            <Pressable
-              onPress={() => navigation.navigate('Modal')}
-              style={({ pressed }) => ({
-                opacity: pressed ? 0.5 : 1,
-              })}>
-              <FontAwesome
-                name="info-circle"
-                size={25}
-                color={Colors[colorScheme].text}
-                style={{ marginRight: 15 }}
-              />
-            </Pressable>
-          ),
-        })}
+        name="Restuarants"
+        component={Resturants}
+        options={{
+          title: 'Restuarants',
+          tabBarIcon: ({ color }) => <Entypo name="shop" size={30} color={color} />,
+          headerShown: false
+        }}
       />
       <BottomTab.Screen
-        name="TabTwo"
-        component={TabTwoScreen}
+        name="Cart"
+        component={Cart}
         options={{
-          title: 'Tab Two',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+          title: 'Cart',
+          tabBarIcon: ({ color }) => <CartIcon color={color} NumberOfItems={itemsCount} positionLeft={52} />,
+          headerShown: false
         }}
       />
     </BottomTab.Navigator>
   );
 }
 
-/**
- * You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
- */
-function TabBarIcon(props: {
-  name: React.ComponentProps<typeof FontAwesome>['name'];
-  color: string;
-}) {
-  return <FontAwesome size={30} style={{ marginBottom: -3 }} {...props} />;
-}
+
