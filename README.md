@@ -4,16 +4,16 @@
 
 - Home
 
-<img src='https://github.com/Ankan002/interview-tomato/blob/main/screenshots/home.jpg' width='100' />
+<img src='https://github.com/Ankan002/interview-tomato/blob/main/screenshots/home.jpg' width='150' />
 
 - Menu
 
-<img src='https://github.com/Ankan002/interview-tomato/blob/main/screenshots/menu.jpg' width='100' />
+<img src='https://github.com/Ankan002/interview-tomato/blob/main/screenshots/menu.jpg' width='150' />
 
 - Cart
 
-<img src='https://github.com/Ankan002/interview-tomato/blob/main/screenshots/cart.jpg' width='100' />
+<img src='https://github.com/Ankan002/interview-tomato/blob/main/screenshots/cart.jpg' width='150' />
 
 - Empty Cart
 
-<img src='https://github.com/Ankan002/interview-tomato/blob/main/screenshots/empty-cart.jpg' width='100' />
+<img src='https://github.com/Ankan002/interview-tomato/blob/main/screenshots/empty-cart.jpg' width='150' />
