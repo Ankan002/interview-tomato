@@ -28,15 +28,10 @@ export default function Navigation() {
   const [itemsCount, setItemsCount] = useRecoilState(ItemsCountState)
 
   const getCartItems = async() => {
-    const ItemsInStore = await AsyncStorage.getItem('cart-items')
+    const ItemsInStore = await AsyncStorage.getItem('cart-item')
     console.log(ItemsInStore)
 
-    if(!ItemsInStore){
-      await AsyncStorage.setItem('cart-item', JSON.stringify([]))
-      setCartItems([])
-      setItemsCount(0)
-    }
-    else{
+    if(ItemsInStore){
       const AllItems = JSON.parse(ItemsInStore)
       setCartItems(AllItems)
       const count = getItemsCountInCart(AllItems)
@@ -47,14 +42,14 @@ export default function Navigation() {
   const storageSetter = async() => {
     await AsyncStorage.setItem('cart-item', JSON.stringify(cartItems))
   }
-  storageSetter()
+  
 
   useEffect(() => {
     getCartItems()
   }, [])
 
   useEffect(() => {
-    
+    storageSetter()
   }, [cartItems])
 
   return (
